@@ -14,6 +14,8 @@ export const envSchema = z.object({
   DATABASE_URL: z.string().url().min(1),
   PORT: z.coerce.number().default(3333),
   JWT_SECRET_KEY: z.string(),
+  API_BASE_URL: z.string().url(),
+  FRONTEND_BASE_URL: z.string().url(),
 });
 
 export const env = envSchema.parse(process.env);

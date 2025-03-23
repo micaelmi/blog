@@ -1,0 +1,51 @@
+export const ConfirmationEmail = (
+  name: string,
+  email: string,
+  apiBaseUrl: string,
+  userId: string
+) => {
+  return {
+    from: {
+      name: "Micael",
+      address: "contact@micaelblog.com",
+    },
+    to: {
+      name: name,
+      address: email,
+    },
+    subject: `Welcome to Micael's blog!`,
+    html: `
+        <div
+          style="
+            font-family: sans-serif;
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 1rem;
+            border-radius: 0.5rem;
+          "
+        >
+          <h2>Welcome to Micael's Blog!</h2>
+          <p style="padding: 1rem 0; line-height: 2rem">
+            Now you just need to click in the link below to confirm your account
+            creation.
+          </p>
+          <a
+            href="${apiBaseUrl}/users/confirm-email?user_id=${userId}"
+            style="
+              text-decoration: none;
+              background-color: #161f30;
+              color: white;
+              padding: 0.5rem 2rem;
+              border-radius: 0.3rem;
+              font-weight: bold;
+            "
+          >
+            Confirm my email
+          </a>
+          <p style="padding: 1rem 0; line-height: 2rem; font-size: 14px">
+            If you didn't just register in our blog, ignore this email.
+          </p>
+          <a href="#" target="_blank" style="color: black"> Micael's Blog </a>
+        </div>`.trim(),
+  };
+};

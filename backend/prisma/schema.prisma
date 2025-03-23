@@ -25,9 +25,20 @@ model User {
   @@map("users")
 }
 
+model UnconfirmedUser {
+  id         String   @id @default(uuid())
+  name       String
+  username   String   @unique
+  email      String   @unique
+  password   String   @db.VarChar(255)
+  created_at DateTime @default(now())
+
+  @@map("unconfirmed_users")
+}
+
 model UserType {
   id    String @id @default(uuid())
-  type  String
+  type  String @unique
   users User[]
 
   @@map("user_types")

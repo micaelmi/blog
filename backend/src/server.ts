@@ -1,3 +1,4 @@
+import fastifyCookie from "@fastify/cookie";
 import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
@@ -11,10 +12,8 @@ import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 import { env } from "./env";
 import { errorHandler } from "./error-handler";
 import { verifyToken } from "./middlewares/verify-token";
-import { createUserType } from "./routes/user-types/create";
-import { listAllUserTypes } from "./routes/user-types/list";
-import { userRoutes } from "./routes/users";
-import { login } from "./routes/users/login";
+import { userTypeRoutes } from "./routes/user-types";
+import { userPublicRoutes, userRoutes } from "./routes/users/router";
 
 export const app = fastify();
 
@@ -54,23 +53,21 @@ app.register(fastifySwaggerUI, {
   },
 });
 
+app.register(fastifyCookie, {
+  hook: "onRequest",
+});
+
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 app.setErrorHandler(errorHandler);
 
-app.register(login);
-
-app.register(userRoutes);
+app.register(userPublicRoutes);
 
 // authenticated routes
 app.register(async (app) => {
   app.addHook("preHandler", verifyToken);
-  app.register(createUserType);
-  app.register(listAllUserTypes, {
-    schema: {
-      security: [{ BearerAuth: [] }],
-    },
-  });
+  app.register(userRoutes);
+  app.register(userTypeRoutes);
 });
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
