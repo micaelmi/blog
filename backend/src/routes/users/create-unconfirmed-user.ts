@@ -7,7 +7,7 @@ import { prisma } from "../../lib/prisma";
 import nodemailer from "nodemailer";
 import { env } from "../../env";
 import { getMailClient } from "../../lib/nodemailer";
-import { ConfirmationEmail } from "../../lib/emails/confirmation-email";
+import { confirmationEmail } from "../../lib/emails/confirmation-email";
 
 export async function createUnconfirmedUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -57,7 +57,7 @@ export async function createUnconfirmedUser(app: FastifyInstance) {
       const apiBaseUrl = env.API_BASE_URL;
       const mail = await getMailClient();
       const message = await mail.sendMail(
-        ConfirmationEmail(userFirstName, email, apiBaseUrl, user.id)
+        confirmationEmail(userFirstName, email, apiBaseUrl, user.id)
       );
       console.log(nodemailer.getTestMessageUrl(message));
 

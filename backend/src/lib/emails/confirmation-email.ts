@@ -1,4 +1,4 @@
-export const ConfirmationEmail = (
+export const confirmationEmail = (
   name: string,
   email: string,
   apiBaseUrl: string,
@@ -13,7 +13,7 @@ export const ConfirmationEmail = (
       name: name,
       address: email,
     },
-    subject: `Welcome to Micael's blog!`,
+    subject: `Confirm your email to Micael's blog!`,
     html: `
         <div
           style="

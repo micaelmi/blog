@@ -26,12 +26,12 @@ model User {
 }
 
 model UnconfirmedUser {
-  id         String   @id @default(uuid())
-  name       String
-  username   String   @unique
-  email      String   @unique
-  password   String   @db.VarChar(255)
-  created_at DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  username  String   @unique
+  email     String   @unique
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@map("unconfirmed_users")
 }
