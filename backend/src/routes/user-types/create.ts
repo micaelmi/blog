@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
@@ -14,17 +13,20 @@ export async function createUserType(app: FastifyInstance) {
         body: z.object({
           type: z.string(),
         }),
+        response: {
+          201: z.object({
+            id: z.string().uuid(),
+          }),
+        },
       },
     },
     async (request, reply) => {
       const { type } = request.body;
       const userType = await prisma.userType.create({
-        data: {
-          type,
-        },
+        data: { type },
       });
 
-      return reply.status(201).send({ userTypeId: userType.id });
+      return reply.status(201).send({ id: userType.id });
     }
   );
 }

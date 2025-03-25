@@ -13,6 +13,14 @@ export async function deleteUserType(app: FastifyInstance) {
         params: z.object({
           id: z.string().uuid(),
         }),
+        response: {
+          200: z.object({
+            userType: z.object({
+              id: z.string(),
+              type: z.string(),
+            }),
+          }),
+        },
       },
     },
     async (request, reply) => {
