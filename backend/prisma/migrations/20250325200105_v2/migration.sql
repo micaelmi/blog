@@ -6,10 +6,25 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "bio" TEXT,
+    "avatarUrl" TEXT,
+    "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
     "user_type_id" TEXT NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "unconfirmed_users" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "unconfirmed_users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -34,8 +49,9 @@ CREATE TABLE "articles" (
     "title" TEXT NOT NULL,
     "image_url" TEXT NOT NULL,
     "content" TEXT NOT NULL,
-    "status" BOOLEAN NOT NULL DEFAULT true,
+    "published" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
     "user_id" TEXT NOT NULL,
 
     CONSTRAINT "articles_pkey" PRIMARY KEY ("id")
@@ -66,6 +82,7 @@ CREATE TABLE "feedbacks" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "message" TEXT NOT NULL,
+    "visualized" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "user_id" TEXT NOT NULL,
 
@@ -77,7 +94,7 @@ CREATE TABLE "email_list" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "status" BOOLEAN NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "email_list_pkey" PRIMARY KEY ("id")
 );
@@ -87,6 +104,15 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "unconfirmed_users_username_key" ON "unconfirmed_users"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "unconfirmed_users_email_key" ON "unconfirmed_users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_types_type_key" ON "user_types"("type");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tags_name_key" ON "tags"("name");
