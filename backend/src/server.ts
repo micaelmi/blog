@@ -12,8 +12,10 @@ import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 import { env } from "./env";
 import { errorHandler } from "./error-handler";
 import { verifyToken } from "./middlewares/verify-token";
-import { userTypeRoutes } from "./routes/user-types";
+import { userTypeRoutes } from "./routes/user-types/router";
 import { userPublicRoutes, userRoutes } from "./routes/users/router";
+import { tagsRoutes } from "./routes/tags/router";
+import { articlesRoutes } from "./routes/articles/router";
 
 export const app = fastify();
 
@@ -68,6 +70,8 @@ app.register(async (app) => {
   app.addHook("preHandler", verifyToken);
   app.register(userRoutes);
   app.register(userTypeRoutes);
+  app.register(tagsRoutes);
+  app.register(articlesRoutes);
 });
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
