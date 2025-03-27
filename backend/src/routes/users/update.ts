@@ -39,7 +39,7 @@ export async function updateUser(app: FastifyInstance) {
         },
       });
 
-      return reply.status(200).send({ userId: user.id });
+      return reply.status(200).send({ id: user.id });
     }
   );
 }
